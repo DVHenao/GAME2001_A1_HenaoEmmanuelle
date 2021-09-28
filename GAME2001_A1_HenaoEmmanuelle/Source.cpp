@@ -6,13 +6,15 @@ using namespace std;
 
 int main()
 {
-	OrderedArray<int> array(3);
+	OrderedArray<int> array(2);
 
+	array.push(1);
+	array.push(2);
 	array.push(3);
-	array.push(53);
-	array.push(83);
-	array.push(23); // <-- Should expand here			// 3 23 82 
-	array.push(82); // <-- Should expand here
+	array.push(4); 
+	array.push(5);
+	array.push(5);
+
 
 	array[2] = 112;
 

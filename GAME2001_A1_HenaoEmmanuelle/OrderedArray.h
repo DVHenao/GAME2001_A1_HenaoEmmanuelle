@@ -1,6 +1,7 @@
 #pragma once
 #include <cassert>
 #include "ArrayBase.h"
+#include <iostream>
 
 template<class T>
 class OrderedArray: public ArrayBase<T>
@@ -30,6 +31,7 @@ public:
 	// Insertion -- Big-O = O(N)
 	void push(T val)
 	{
+
 		assert(m_array != nullptr);
 
 		if (m_numElements >= m_maxSize)
@@ -37,27 +39,41 @@ public:
 			Expand();
 		}
 
-		int i, k;	// i - Index to be inserted. k - Used for shifting purposes
-		// Step 1: Find the index to insert val
-		for (i = 0; i < m_numElements; i++)
+
+		// CHECK FOR DUPLICATE
+		bool duplicate = 0;
+		for (int i = 0; i <= m_numElements; i++)
 		{
-			if (m_array[i] > val)
+			if (m_array[i] == val)
 			{
-				break;
+				duplicate = 1;
+				std::cout << " DUPLICATE DETECTED\n";
 			}
 		}
-
-		// Step 2: Shift everything to the right of the index(i) forward by one. Work backwards
-		for (k = m_numElements; k > i; k--)
+		
+		if (duplicate == 0)
 		{
-			m_array[k] = m_array[k - 1];
+			int i, k;	// i - Index to be inserted. k - Used for shifting purposes
+			// Step 1: Find the index to insert val
+			for (i = 0; i < m_numElements; i++)
+			{
+				if (m_array[i] > val)
+				{
+					break;
+				}
+			}
+
+			// Step 2: Shift everything to the right of the index(i) forward by one. Work backwards
+			for (k = m_numElements; k > i; k--)
+			{
+				m_array[k] = m_array[k - 1];
+			}
+
+			// Step 3: Insert val into the array at index
+			m_array[i] = val;
+
+			m_numElements++;
 		}
-
-		// Step 3: Insert val into the array at index
-		m_array[i] = val;
-
-		m_numElements++;
-
 		// return i;
 	}
 	// Deletion (2 ways)
@@ -173,7 +189,9 @@ private:
 		temp = nullptr;
 
 		m_maxSize += m_growSize;
+		m_growSize *= 2;
 
+		std::cout << "Size of m_array is " << m_maxSize << std::endl;
 		return true;
 	}
 private:

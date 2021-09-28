@@ -24,12 +24,21 @@ public:
 	{
 		return m_growSize;
 	}
-	int SetGrowSize(int val)
+	void SetGrowSize(int val)
 	{
 		assert(val >= 0);
-		m_growSize = val;
+		m_growSize *= val;
 	}
 
+	void SetSize(int x)
+	{
+		m_numElements = x;
+	}
+	void SetMaxSize(int x)
+	{
+		m_maxSize = x;
+	}
+	
 
 
 private:

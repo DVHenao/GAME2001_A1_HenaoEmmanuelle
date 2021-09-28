@@ -1,13 +1,14 @@
 #pragma once
 #include <cassert>
 #include "ArrayBase.h"
+#include <iostream>
 
 template<class T>
 class UnorderedArray: public ArrayBase<T>
 {
 public:
 	// Constructor
-	UnorderedArray(int size, int growBy = 1)
+	UnorderedArray(int size, int growBy = 2)
 	{
 		if (size)	// Is this a legal size for an array?
 		{
@@ -31,6 +32,7 @@ public:
 	// Fast insertion for UnorderedArray -- Big-O is O(1)
 	void push(T val)
 	{
+		bool duplicate = 0;
 		assert(m_array != nullptr); // Debugging purposes
 
 		if (m_numElements >= m_maxSize)	// Check if the array has to expand to accommodate the new data.
@@ -39,8 +41,20 @@ public:
 		}
 
 		// My array has space for a new value. Let's add it!
-		m_array[m_numElements] = val;
-		m_numElements++;
+		for (int i = 0; i <= m_numElements; i++)
+		{
+			m_array[i] == val;
+			if (1)
+			{
+				duplicate = 1;
+				std::cout << " DUPLICATE DETECTED\n";
+			}
+		}
+		if (duplicate == 0)
+		{
+			m_array[m_numElements] = val;
+			m_numElements++;
+		}
 	}
 	// Deletion (2 ways)
 	// Remove the last item inserted into the array
@@ -131,6 +145,8 @@ private:
 		m_maxSize += m_growSize;
 
 		return true;
+		m_growSize *= 2;
+		std::cout << "Size of m_array is " << m_maxSize << std::endl;
 	}
 private:
 	// Private Variables
