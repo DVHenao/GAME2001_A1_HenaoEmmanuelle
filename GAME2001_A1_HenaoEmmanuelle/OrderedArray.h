@@ -1,13 +1,13 @@
 #pragma once
 #include <cassert>
+#include "ArrayBase.h"
 
 template<class T>
-class OrderedArray
+class OrderedArray: public ArrayBase<T>
 {
 public:
 	// Constructor
-	OrderedArray(int size, int growBy = 1) :
-		m_array(NULL), m_maxSize(0), m_growSize(0), m_numElements(0)
+	OrderedArray(int size, int growBy = 2)
 	{
 		if (size)	// Is this a legal size for an array?
 		{
@@ -146,24 +146,7 @@ public:
 	{
 		m_numElements = 0;	 // Ignore (or forgets) all current items in the array
 	}
-	// Gets and Sets
-	int GetSize()
-	{
-		return m_numElements;
-	}
-	int GetMaxSize()
-	{
-		return m_maxSize;
-	}
-	int GetGrowSize()
-	{
-		return m_growSize;
-	}
-	int SetGrowSize(int val)
-	{
-		assert(val >= 0);
-		m_growSize = val;
-	}
+	
 private:
 	// Private functions
 		// Expansion
