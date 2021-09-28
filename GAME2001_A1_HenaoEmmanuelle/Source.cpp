@@ -9,17 +9,17 @@ int main()
 	OrderedArray<int> array(2);
 
 	array.push(1);
-	array.push(2);
+	array.push(4);
 	array.push(3);
-	array.push(4); 
+	array.push(9); 
+	array.push(6);
 	array.push(5);
+	array.push(7);
+	array.push(8);
+	array.push(2);
 	array.push(5);
+	array.push(8);
 
-
-	array[2] = 112;
-
-	array.pop();
-	array.remove(2);
 
 	cout << "Ordered array contents: ";
 
@@ -30,8 +30,8 @@ int main()
 
 	cout << endl;
 
-	cout << "Search for 23 was found at index: ";
-	cout << array.search(23);
+	cout << "Search for 8 was found at index: ";
+	cout << array.search(8);
 
 	cout << endl << endl;
 

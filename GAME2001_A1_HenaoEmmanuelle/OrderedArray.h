@@ -12,11 +12,12 @@ public:
 	{
 		if (size)	// Is this a legal size for an array?
 		{
-			m_maxSize = size;
-			m_array = new T[m_maxSize];		// Dynamically allocating an array to m_maxSize
-			memset(m_array, 0, sizeof(T) * m_maxSize);	// Explicitly set 0 to all elements in the array
+			OrderedArray::SetMaxSize(size);
+			m_array = new T[OrderedArray::GetMaxSize()];		// Dynamically allocating an array to m_maxSize
+			memset(m_array, 0, sizeof(T) * OrderedArray::GetMaxSize());	// Explicitly set 0 to all elements in the array
 
-			m_growSize = ((growBy > 0) ? growBy : 0);
+			//m_growSize = ((growBy > 0) ? growBy : 0);
+			OrderedArray::SetGrowSize(growBy);
 		}
 	}
 	// Destructor
@@ -34,7 +35,7 @@ public:
 
 		assert(m_array != nullptr);
 
-		if (m_numElements >= m_maxSize)
+		if (OrderedArray::GetSize() >= OrderedArray::GetMaxSize())
 		{
 			Expand();
 		}
@@ -42,12 +43,12 @@ public:
 
 		// CHECK FOR DUPLICATE
 		bool duplicate = 0;
-		for (int i = 0; i <= m_numElements; i++)
+		for (int i = 0; i <= OrderedArray::GetSize(); i++)
 		{
 			if (m_array[i] == val)
 			{
 				duplicate = 1;
-				std::cout << " DUPLICATE DETECTED\n";
+				std::cout << " DUPLICATE DETECTED: " << m_array[i] << std::endl;
 			}
 		}
 		
@@ -55,7 +56,7 @@ public:
 		{
 			int i, k;	// i - Index to be inserted. k - Used for shifting purposes
 			// Step 1: Find the index to insert val
-			for (i = 0; i < m_numElements; i++)
+			for (i = 0; i < OrderedArray::GetSize(); i++)
 			{
 				if (m_array[i] > val)
 				{
@@ -64,7 +65,7 @@ public:
 			}
 
 			// Step 2: Shift everything to the right of the index(i) forward by one. Work backwards
-			for (k = m_numElements; k > i; k--)
+			for (k = OrderedArray::GetSize(); k > i; k--)
 			{
 				m_array[k] = m_array[k - 1];
 			}
@@ -72,7 +73,7 @@ public:
 			// Step 3: Insert val into the array at index
 			m_array[i] = val;
 
-			m_numElements++;
+			OrderedArray::SetSize(OrderedArray::GetSize()+1);
 		}
 		// return i;
 	}
@@ -80,9 +81,9 @@ public:
 	// Remove the last item inserted into the array
 	void pop()
 	{
-		if (m_numElements > 0)
+		if (OrderedArray::GetSize() > 0)
 		{
-			m_numElements--;	// Reduce the total number of elements by 1. Ignoring the last element.
+			OrderedArray::SetSize(OrderedArray::GetSize()-1);	// Reduce the total number of elements by 1. Ignoring the last element.
 		}
 	}
 	// Remove an item given an index
@@ -91,22 +92,22 @@ public:
 	{
 		assert(m_array != nullptr);
 
-		if (index >= m_numElements)
+		if (index >= OrderedArray::GetSize())
 		{
 			// I am trying to remove something outside of the bounds of the array
 			return;	// <-- Maybe could do some form of exception handling
 		}
 
-		for (int i = index; i < m_numElements; i++)
+		for (int i = index; i < OrderedArray::GetSize(); i++)
 		{
 			// Start at the index we want to remove.
 			// Shift everything after index back by one.
-			if (i + 1 < m_numElements)	// Confines the loop into the array
+			if (i + 1 < OrderedArray::GetSize())	// Confines the loop into the array
 			{
 				m_array[i] = m_array[i + 1];
 			}
 		}
-		m_numElements--;
+		OrderedArray::SetSize(OrderedArray::GetSize()-1);
 	}
 	// Searching
 	// Binary Search
@@ -116,7 +117,7 @@ public:
 
 		// Helper variables.
 		int lowerBound = 0;
-		int upperBound = m_numElements - 1;
+		int upperBound = OrderedArray::GetSize() - 1;
 		int current = 0;
 
 		while (1)	// <-- Replaced with recursion
@@ -154,13 +155,13 @@ public:
 	// Overloaded [] operator
 	T& operator[](int index)
 	{
-		assert(m_array != nullptr && index < m_numElements);
+		assert(m_array != nullptr && index < OrderedArray::GetSize());
 		return m_array[index];
 	}
 	// Clear
 	void clear()
 	{
-		m_numElements = 0;	 // Ignore (or forgets) all current items in the array
+		OrderedArray::SetSize(0);	 // Ignore (or forgets) all current items in the array
 	}
 	
 private:
@@ -168,18 +169,18 @@ private:
 		// Expansion
 	bool Expand()
 	{
-		if (m_growSize <= 0)
+		if (OrderedArray::GetGrowSize() <= 0)
 		{
 			// LEAVE!
 			return false;
 		}
 
 		// Create the new array
-		T* temp = new T[m_maxSize + m_growSize];
+		T* temp = new T[OrderedArray::GetMaxSize() + OrderedArray::GetGrowSize()];
 		assert(temp != nullptr);
 
 		// Copy the contents of the original array into the new array
-		memcpy(temp, m_array, sizeof(T) * m_maxSize);
+		memcpy(temp, m_array, sizeof(T) * OrderedArray::GetMaxSize());
 
 		// Delete the old array
 		delete[] m_array;
@@ -188,17 +189,16 @@ private:
 		m_array = temp;
 		temp = nullptr;
 
-		m_maxSize += m_growSize;
-		m_growSize *= 2;
+		//m_maxSize += OrderedArray::GetGrowSize();
+		OrderedArray::SetMaxSize(OrderedArray::GetMaxSize() + OrderedArray::GetMaxSize());
+		OrderedArray::SetGrowSize(2);
 
-		std::cout << "Size of m_array is " << m_maxSize << std::endl;
+		std::cout << "Size of m_array is " << OrderedArray::GetMaxSize() << std::endl;
 		return true;
 	}
 private:
 	// Private Variables
 	T* m_array;			// Pointer to the beginning of the array
 
-	int m_maxSize;		// Maximum size of the array
-	int m_growSize;		// Amount the array can grow through expansion
-	int m_numElements;	// Number of items currently in my array
+	
 };
