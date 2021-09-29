@@ -77,17 +77,7 @@ public:
 		}
 		// return i;
 	}
-	// Deletion (2 ways)
-	// Remove the last item inserted into the array
-	void pop()
-	{
-		if (OrderedArray::GetSize() > 0)
-		{
-			OrderedArray::SetSize(OrderedArray::GetSize()-1);	// Reduce the total number of elements by 1. Ignoring the last element.
-		}
-	}
-	// Remove an item given an index
-	// (Almost) Brute-force execution -- Big-O = O(N)
+	
 	void remove(int index)
 	{
 		assert(m_array != nullptr);
@@ -158,11 +148,7 @@ public:
 		assert(m_array != nullptr && index < OrderedArray::GetSize());
 		return m_array[index];
 	}
-	// Clear
-	void clear()
-	{
-		OrderedArray::SetSize(0);	 // Ignore (or forgets) all current items in the array
-	}
+	
 	
 private:
 	// Private functions

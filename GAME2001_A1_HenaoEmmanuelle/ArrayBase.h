@@ -11,6 +11,19 @@ public:
 	}
 
 
+	void pop()
+	{
+		if (m_numElements > 0)
+		{
+			m_numElements--;	// Reduce the total number of elements by 1. Ignoring the last element.
+		}
+	}
+
+	void clear()
+	{
+		m_numElements = 0;	 // Ignore (or forgets) all current items in the array
+	}
+
 	//functions
 	int GetSize()
 	{
@@ -38,7 +51,9 @@ public:
 	{
 		m_maxSize = x;
 	}
-	
+private:
+
+
 
 protected:
 	T* m_array;			// Pointer to the beginning of the array

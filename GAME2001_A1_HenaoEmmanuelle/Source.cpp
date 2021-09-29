@@ -1,12 +1,12 @@
 #include <iostream>
-// #include "UnorderedArray.h"
-#include "OrderedArray.h"
+#include "UnorderedArray.h"
+//#include "OrderedArray.h"
 //just testing
 using namespace std;
 
 int main()
 {
-	OrderedArray<int> array(2);
+	UnorderedArray<int> array(2);
 
 	array.push(1);
 	array.push(4);
@@ -19,6 +19,8 @@ int main()
 	array.push(2);
 	array.push(5);
 	array.push(8);
+
+	array.remove(3);
 
 
 	cout << "Ordered array contents: ";
