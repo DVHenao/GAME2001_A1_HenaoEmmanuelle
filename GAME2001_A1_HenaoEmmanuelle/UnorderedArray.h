@@ -43,6 +43,7 @@ public:
 
 		// My array has space for a new value. Let's add it!
 		bool duplicate = 0;
+		if (UnorderedArray::GetDuplicate() == 0)
 		for (int i = 0; i < UnorderedArray::GetSize(); i++)
 		{
 			if (m_array[i] == val)

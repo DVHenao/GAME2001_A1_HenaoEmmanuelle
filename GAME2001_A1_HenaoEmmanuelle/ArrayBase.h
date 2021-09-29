@@ -5,7 +5,7 @@ class ArrayBase
 {
 public:
 	ArrayBase() :
-		m_array(NULL), m_maxSize(0), m_growSize(1), m_numElements(0)
+		m_array(NULL), m_maxSize(0), m_growSize(1), m_numElements(0),m_duplicate(0)
 	{
 	
 	}
@@ -37,12 +37,19 @@ public:
 	{
 		return m_growSize;
 	}
+	bool GetDuplicate()
+	{
+		return m_duplicate;
+	}
+	void SetDuplicate(bool x)
+	{
+		m_duplicate = x;
+	}
 	void SetGrowSize(int val)
 	{
 		assert(val >= 0);
 		m_growSize *= val;
 	}
-
 	void SetSize(int x)
 	{
 		m_numElements = x;
@@ -61,4 +68,5 @@ protected:
 	int m_maxSize;		// Maximum size of the array
 	int m_growSize;		// Amount the array can grow through expansion
 	int m_numElements;	// Number of items currently in my array
+	bool m_duplicate;  // 1 == duplicates allowed, 0 == duplicates denied
 };

@@ -1,12 +1,22 @@
 #include <iostream>
-#include "UnorderedArray.h"
-//#include "OrderedArray.h"
+//#include "UnorderedArray.h"
+#include "OrderedArray.h"
 //just testing
 using namespace std;
 
 int main()
 {
-	UnorderedArray<int> array(2);
+	bool dup;
+
+	OrderedArray<int> array(2);
+
+	cout << "would you like to allow duplicate data?\n press 1 for yes, press 0 for no\n";
+	cin >> dup;
+	if (dup == 1)
+		array.SetDuplicate(1);
+	else
+		array.SetDuplicate(0);
+
 
 	array.push(1);
 	array.push(4);
@@ -21,6 +31,7 @@ int main()
 	array.push(8);
 
 	array.remove(3);
+	array.pop();
 
 
 	cout << "Ordered array contents: ";

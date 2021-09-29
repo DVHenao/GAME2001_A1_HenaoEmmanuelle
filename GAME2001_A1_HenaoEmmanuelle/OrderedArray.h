@@ -43,6 +43,7 @@ public:
 
 		// CHECK FOR DUPLICATE
 		bool duplicate = 0;
+		if (OrderedArray::GetDuplicate() == 0)
 		for (int i = 0; i <= OrderedArray::GetSize(); i++)
 		{
 			if (m_array[i] == val)
